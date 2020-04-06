@@ -20,7 +20,6 @@ class CreateTasksTable extends Migration
             $table->date('due_date');
             $table->integer('status')->default(1);
             $table->timestamps();
-
             $table->foreign('folder_id')->references('id')->on('folders');
         });
     }
