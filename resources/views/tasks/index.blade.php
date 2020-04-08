@@ -65,7 +65,8 @@
                   <td>{{ $task->title }}</td>
                   <td>
                     <!-- アクセサメソッドを参照するときは文字の区切りがアンダースコアになる -->
-                    <span class="label">{{ $task->status_label }}</span> <!-- タスクの進捗状況 -->
+                    <!-- ラベル部分のクラス属性を追加 -->
+                    <span class="label {{ $task->status_class }}">{{ $task->status_label }}</span> <!-- タスクの進捗状況 -->
                   </td>
                   <td>{{ $task->due_date }}</td>
                   <td><a href="#">編集</a></td>
