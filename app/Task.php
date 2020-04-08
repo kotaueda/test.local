@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+// Carbonを使うためuse宣言
+use Carbon\Carbon;
 
 class Task extends Model
 {
@@ -42,5 +44,14 @@ class Task extends Model
 
         // statusカラムの値へアクセス
         return self::STATUS[$status]['class'];
+    }
+
+    // 日付の表示形式を変更するためのメソッド
+    public function getFormattedDueDateAttribute()
+    {
+        // Carbon(日時操作ライブラリ)を使って表示されるフォーマットを変更
+        return Carbon::createFromFormat('Y-m-d', $this->attributes['due_date'])
+            // ハイフン区切りからスラッシュ区切りに変更
+            ->format('Y/m/d');
     }
 }
