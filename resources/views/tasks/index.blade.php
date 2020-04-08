@@ -26,8 +26,6 @@
           </div>
           <div class="list-group">
             @foreach($folders as $folder)
-              <a
-                href="{{ route('tasks.index', ['id' => $folder->id]) }}"
               <a 
                 href="{{ route('tasks.index', ['id' => $folder->id]) }}" 
                 class="list-group-item {{ $current_folder_id === $folder->id ? 'active' : '' }}"
@@ -40,6 +38,41 @@
       </div>
       <div class="column col-md-8">
         <!-- ここにタスクが表示される -->
+        <div class="panel panel-default">
+          <div class="panel-heading">タスク</div>
+          <div class="panel-body">
+            <div class="text-right">
+              <a href="#" class="btn btn-default btn-block">
+                タスクを追加する
+              </a>
+            </div>
+          </div>
+          <!-- 選択されたフォルダのタスクの状況をタイトル・状態・期限ごとに表示する -->
+          <table class="table">
+            <thead>
+            <tr>
+              <th>タイトル</th>
+              <th>状態</th>
+              <th>期限</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+              <!-- foreach文は配列に含まれた要素の分だけ繰り返し処理を行う -->
+              @foreach($tasks as $task)
+                <tr>
+                  <!-- コントローラーからシーダーに登録されたデータを取得し、ブラウザに表示する -->
+                  <td>{{ $task->title }}</td>
+                  <td>
+                    <span class="label">{{ $task->status }}</span> <!-- タスクの進捗状況 -->
+                  </td>
+                  <td>{{ $task->due_date }}</td>
+                  <td><a href="#">編集</a></td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
