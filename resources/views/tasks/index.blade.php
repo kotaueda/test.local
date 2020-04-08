@@ -64,7 +64,8 @@
                   <!-- コントローラーからシーダーに登録されたデータを取得し、ブラウザに表示する -->
                   <td>{{ $task->title }}</td>
                   <td>
-                    <span class="label">{{ $task->status }}</span> <!-- タスクの進捗状況 -->
+                    <!-- アクセサメソッドを参照するときは文字の区切りがアンダースコアになる -->
+                    <span class="label">{{ $task->status_label }}</span> <!-- タスクの進捗状況 -->
                   </td>
                   <td>{{ $task->due_date }}</td>
                   <td><a href="#">編集</a></td>
