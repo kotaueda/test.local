@@ -68,7 +68,8 @@
                     <!-- ラベル部分のクラス属性を追加 -->
                     <span class="label {{ $task->status_class }}">{{ $task->status_label }}</span> <!-- タスクの進捗状況 -->
                   </td>
-                  <td>{{ $task->due_date }}</td>
+                  <!-- 日付変更のメソッドを参照 -->
+                  <td>{{ $task->formatted_due_date }}</td>
                   <td><a href="#">編集</a></td>
                 </tr>
               @endforeach
