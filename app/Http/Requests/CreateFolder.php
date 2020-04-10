@@ -36,4 +36,13 @@ class CreateFolder extends FormRequest
             'title' => 'required',
         ];
     }
+
+    // 入力欄の名称をカスタマイズするためattributesメソッドを追加
+    public function attributes()
+    {
+        // 入力欄の名称を定義する
+        return [
+            'title' => 'フォルダ名',
+        ];
+    }
 }
