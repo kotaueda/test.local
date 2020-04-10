@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+// バリデーションをつかさどるFormRequestクラスを作成
+class CreateFolder extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+
+    // 認証関係の処理を行うメソッドなので、特にない場合は常にtrueを返しておく
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+
+    /**
+     * 入力欄ごとにチェックするルールを定義し、ruleメソッドが返す配列がルールを表す
+     * 配列のキーが入力欄になり、HTML側のinput要素のname属性に対応する
+     * titleに、必須入力を表すrequiredを指定している
+     */ 
+    public function rules()
+    {
+        return [
+            'title' => 'required',
+        ];
+    }
+}
