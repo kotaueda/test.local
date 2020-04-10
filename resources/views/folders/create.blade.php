@@ -20,6 +20,17 @@
           <nav class="panel panel-default">
             <div class="panel-heading">フォルダを追加する</div>
             <div class="panel-body">
+              <!-- ルール違反の内容が詰められた$errors変数を使ってルール違反があったかを確認する -->
+              @if($errors->any())
+                <div class="alert alert-danger">
+                  <ul>
+                    <!-- ルール違反があった場合、エラーメッセージを列挙する -->
+                    @foreach($errors->all() as $message)
+                      <li>{{ $message }}</li>
+                    @endforeach
+                  </ul>
+                </div>
+              @endif
             　<!-- formアクションでurlを呼び出し、フォームを使ってデータを送る -->
               <form action="{{ route('folders.create') }}" method="post"> 
               　<!-- 他サイトからの悪意あるPOSTリクエストを受け付けないよう、自分のサイトからのPOSTリクエストだけ受け付けるため、CSRFトークンを用いる -->
