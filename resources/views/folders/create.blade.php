@@ -37,7 +37,8 @@
                 @csrf 
                 <div class="form-group">
                   <label for="title">フォルダ名</label>
-                  <input type="text" class="form-control" name="title" id="title" />
+                  <!-- 入力エラーでフォーム画面に戻ったとき、old関数からセッション値を取得し、入力欄の値を復元させる -->
+                  <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}" />
                 </div>
                 <div class="text-right">
                   <button type="submit" class="btn btn-primary">送信</button>
