@@ -33,7 +33,11 @@ class CreateFolder extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
+            /**
+             * titleカラム定義のVARCHAR(20)に合わせて、上限文字数ルールを追加する 
+             * max:20が入力上限数値を表し、複数のルールは | で区切る
+             */ 
+            'title' => 'required|max:20',
         ];
     }
 
