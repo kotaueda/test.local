@@ -25,3 +25,8 @@ Route::get('/folders/{id}/tasks', 'TaskController@index')->name('tasks.index');
 Route::get('/folders/create', 'FolderController@showCreateForm')->name('folders.create'); // 名前付きルートを使うことでURLを一括変更できる
 // フォルダ作成処理を実行する
 Route::post('/folders/create', 'FolderController@create'); // 同じURLでHTTPメソッド違いのルートがいくつかある場合、どれか一つに名前をつければいい
+
+// タスク作成ページを表示する 
+Route::get('/folders/{id}/tasks/create', 'TaskController@showCreateForm')->name('tasks.create'); 
+// タスク作成処理を実行する 
+Route::post('/folders/{id}/tasks/create', 'TaskController@create');

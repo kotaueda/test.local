@@ -28,4 +28,13 @@ class TaskController extends Controller
             'tasks' => $tasks,
         ]);
     }
+
+    // 入力フォームを表示するためのルートを実装する 
+    public function showCreateForm(int $id) 
+    { 
+        // URL（/folders/{id}/tasks/create）を作るためのフォルダIDをの引数で受け取る 
+        return view('tasks/create', [
+             'folder_id' => $id
+        ]); 
+    }
 }
