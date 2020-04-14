@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge"> <!-- IEのバージョンごとに表示崩れがしないよう、各バージョンのモードでレンダリングする -->
-  <title>ToDo App</title>
+<!-- resources/views/layout.blade.phpをレイアウトファイルとして使用することを宣言 -->
+@extends('layout')
+
+<!-- レイアウトファイルのyieldに対応している -->
+@section('styles')
   <!-- スタイルシートはhead内で読み込む -->
   <!-- JavaScriptのflatpickrライブラリを読み込む -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <!-- flatpickrライブラリの色をブルーテーマにカスタマイズするためのファイルを読み込む -->
   <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
-  <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-<header>
-  <nav class="my-navbar">
-    <a class="my-navbar-brand" href="/">ToDo App</a>
-  </nav>
-</header>
-<main>
+@endsection
+
+<!-- レイアウトファイルのyieldに対応している -->
+@section('content') 
   <div class="container">
     <div class="row">
       <div class="col col-md-offset-3 col-md-6">
@@ -58,8 +51,10 @@
       </div>
     </div>
   </div>
-</main>
+@endsection
 
+<!-- レイアウトファイルのyieldに対応している -->
+@section('scripts')
 <!-- スクリプトはbodyの一番最後で読み込む -->
 <!-- flatpickrスクリプトを読み込む -->
 <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
@@ -75,5 +70,4 @@
     minDate: new Date()
   });
 </script>
-</body>
-</html>
+@endsection
