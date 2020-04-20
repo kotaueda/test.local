@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Folder;
 use App\Task; //Taskモデルを読み込む
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateTask; // CreateTaskコントローラーをインポートする
 
 class TaskController extends Controller
 {
@@ -36,5 +37,29 @@ class TaskController extends Controller
         return view('tasks/create', [
              'folder_id' => $id
         ]); 
+    }
+
+    // タスクを保存するcreateメソッドを追加する
+    public function create(int $id, CreateTask $request)
+    {
+        // フォルダidを取得し、currrent_folderに代入する
+        $current_folder = Folder::find($id);
+
+        // タスクモデルのインスタンスを作成
+        $task = new Task();
+        // タイトルと期限日の入力値を代入する
+        $task->title = $request->title;
+        $task->due_date = $request->due_date;
+
+        // current_folderに紐づくタスクを保存する
+        $current_folder->tasks()->save($task);
+
+        /** 
+         * タスクを作成するルートに画面の出力は必要ないので、フォルダに紐づくタスクをタスク一覧画面に
+         * redirectメソッドを呼び出し偏移させる
+         */
+        return redirect()->route('tasks.index', [
+            'id' => $current_folder->id,
+        ]);
     }
 }
