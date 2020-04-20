@@ -56,4 +56,63 @@ class TaskTest extends TestCase
             'due_date' => '期限日 には今日以降の日付を入力してください。',
         ]);
     }
+
+    /**
+     * 期限日が日付だった場合はタスク一覧ページへリダイレクトする
+     * @test
+     */
+    public function due_date()
+    {
+        $response = $this->post('/folders/1/tasks/create', [
+            'title' => 'Sample task',
+            'due_date' => '2020/04/30', // 正常なデータ（数値）
+        ]);
+
+        $response->assertRedirect('/folders/1/tasks');
+    }
+
+
+     /**
+     * 期限日が今日以降の場合はタスク一覧ページへリダイレクトする
+     * @test
+     */
+    public function due_date_today()
+    {
+        $response = $this->post('/folders/1/tasks/create', [
+            'title' => 'Sample task',
+            'due_date' => Carbon::today()->format('Y/m/d'), // 正常なデータ（今日の日付）
+        ]);
+
+        $response->assertRedirect('/folders/1/tasks');
+    }
+
+    /**
+     * 期限日がうるう年でもデータが正常に保存されるかをチェック
+     * @test
+     */
+    public function due_date_leap()
+    {
+        $response = $this->post('/folders/1/tasks/create', [
+            'title' => 'Sample task',
+            'due_date' => '2024/02/29', // 正常なうるう年のデータ（数値）
+        ]);
+
+        $response->assertRedirect('/folders/1/tasks');
+    }
+
+      /**
+     *  期限日が存在しないうるう年の日付に対してエラーを返す
+     * @test
+     */
+    public function due_date_not_leep()
+    {
+        $response = $this->post('/folders/1/tasks/create', [
+            'title' => 'Sample task',
+            'due_date' => '2025/02/29', // 存在しないデータ（数値）
+        ]);
+
+        $response->assertSessionHasErrors([
+            'due_date' => '期限日 には日付を入力してください。',
+        ]);
+    }
 }
