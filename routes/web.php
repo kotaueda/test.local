@@ -32,6 +32,6 @@ Route::get('/folders/{id}/tasks/create', 'TaskController@showCreateForm')->name(
 Route::post('/folders/{id}/tasks/create', 'TaskController@create');
 
 // タスク編集ページを表示する 
-Route::get('/folders/{id}/tasks/{tasks_id}/edit', 'TaskController@showEditForm')->name('tasks.edit');
+Route::get('/folders/{id}/tasks/{task_id}/edit', 'TaskController@showEditForm')->name('tasks.edit');
 // タスク編集処理を実行する 
 Route::post('/folders/{id}/tasks/{task_id}/edit', 'TaskController@edit');
