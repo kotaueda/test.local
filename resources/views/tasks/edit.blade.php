@@ -1,8 +1,8 @@
 @extends('layout')
 
+<!-- flatpickr/sytylesファイルのyieldに対応している -->
 @section('styles')
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+  @include('share.flatpickr.styles')
 @endsection
 
 @section('content')
@@ -69,21 +69,7 @@
   </div>
 @endsection
 
-<!-- レイアウトファイルのyieldに対応している -->
+<!-- flatpickr/scriptsファイルのyieldに対応している -->
 @section('scripts')
-  <!-- スクリプトはbodyの一番最後で読み込む -->
-  <!-- flatpickrスクリプトを読み込む -->
-  <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
-  <!-- 日本語化するためのスクリプト追加する -->
-  <script src="https://npmcdn.com/flatpickr/dist/l10n/ja.js"></script>
-
-  <!-- getElementByIdは任意のHTMLタグで指定した引数にマッチするドキュメント要素を取得するメソッド -->
-  <!-- minDateオプションで本日の日付より若い日付を入力できないようにする -->
-  <script>
-    flatpickr(document.getElementById('due_date'), {
-      locale: 'ja',
-      dateFormat: "Y/m/d",
-      minDate: new Date()
-    });
-  </script>
+  @include('share.flatpickr.scripts')
 @endsection
