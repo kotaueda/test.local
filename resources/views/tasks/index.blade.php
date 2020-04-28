@@ -59,7 +59,12 @@
                   </td>
                   <!-- 日付変更のメソッドを参照 -->
                   <td>{{ $task->formatted_due_date }}</td>
-                  <td><a href="#">編集</a></td>
+                  <td>
+                    <!-- タスク一覧画面への編集リンク -->
+                    <a href="{{ route('tasks.edit', ['id' => $task->folder_id, 'task_id' => $task->id]) }}">
+                        編集
+                    </a>
+                  </td>
                 </tr>
               @endforeach
             </tbody>
