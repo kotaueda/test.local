@@ -6,6 +6,7 @@ use App\Folder;
 use App\Task; //Taskモデルを読み込む
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateTask; // CreateTaskコントローラーをインポートする
+use App\Http\Requests\EditTask; // EditTaskコントローラーをインポートする
 
 class TaskController extends Controller
 {
@@ -72,6 +73,28 @@ class TaskController extends Controller
         // タスク編集テンプレートにタスクデータを渡す
         return view('tasks/edit', [
             'task' => $task,
+        ]);
+    }
+
+    public function edit(int $id, int $task_id, EditTask $request)
+    {
+        // リクエストを受けたIDからタスクデータを取得する
+        $task = Task::find($task_id);
+
+        // タイトルと期限日、状態の入力値を代入する
+        $task->title = $request->title;
+        $task->status = $request->status;
+        $task->due_date = $request->due_date;
+        // タスクを保存する
+        $task->save();
+
+    
+        /** 
+         * タスクを作成するルートに画面の出力は必要ないので、フォルダに紐づくタスクをタスク一覧画面に
+         * redirectメソッドを呼び出し偏移させる
+         */
+        return redirect()->route('tasks.index', [
+            'id' => $task->folder_id,
         ]);
     }
 }
