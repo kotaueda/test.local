@@ -15,13 +15,7 @@ class UsersTableSeeder extends Seeder
     // シーダーを用いてデータベースにテストデータを挿入する
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => 'test',
-            'email' => 'dummy@email.com',
-            // bcrypt関数を利用し、パスワードを必ず暗号化してデータベースに保存する
-            'password' => bcrypt('test1234'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        // userインスタンスを１０個作成し、データベースへ保存する
+        factory(App\User::class, 10)->create();
     }
 }
