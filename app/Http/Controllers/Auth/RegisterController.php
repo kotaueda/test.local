@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/'; // 登録に成功した後のリダイレクト先を設定する
 
     /**
      * Create a new controller instance.

@@ -38,3 +38,6 @@ Route::post('/folders/{id}/tasks/{task_id}/edit', 'TaskController@edit');
 
 // トップページを表示する
 Route::get('/', 'HomeController@index')->name('home');
+
+// 会員登録・ログイン・ログアウト・パスワード再設定の各機能で必要なルーティング設定をすべて定義する
+Auth::routes();
