@@ -36,4 +36,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     *  hasmanyメソッドを呼び出すことでユーザーテーブルとフォルダテーブルのリレーションを辿り
+     *  ユーザークラスのインスタンスから紐づくフォルダクラスのリストを取得する
+     */
+    public function folders()
+    {
+        return $this->hasMany('App\Folder');
+    }
 }

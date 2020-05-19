@@ -13,11 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Auth::routes();
+// トップページを表示する
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/folders/{id}/tasks', 'TaskController@index')->name('tasks.index');
 
@@ -35,3 +32,9 @@ Route::post('/folders/{id}/tasks/create', 'TaskController@create');
 Route::get('/folders/{id}/tasks/{task_id}/edit', 'TaskController@showEditForm')->name('tasks.edit');
 // タスク編集処理を実行する 
 Route::post('/folders/{id}/tasks/{task_id}/edit', 'TaskController@edit');
+
+// 登録完了ページを表示する
+Route::get('/completion', 'CompletionController@index')->name('completion');
+
+// 会員登録・ログイン・ログアウト・パスワード再設定の各機能で必要なルーティング設定をすべて定義する
+Auth::routes();

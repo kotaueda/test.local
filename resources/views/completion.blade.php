@@ -6,13 +6,13 @@
       <div class="col col-md-offset-3 col-md-6">
         <nav class="panel panel-default">
           <div class="panel-heading">
-            まずはフォルダを作成しましょう
+            登録完了しました
           </div>
           <div class="panel-body">
             <div class="text-center">
-              <!-- フォルダ作成ページへのリンクを表示する -->
-              <a href="{{ route('folders.create') }}" class="btn btn-primary">
-                フォルダ作成ページへ
+              <!-- ログインページへのリンクを表示する -->
+              <a href="{{ route('login') }}" class="btn btn-primary">
+                ログインページへ
               </a>
             </div>
           </div>
