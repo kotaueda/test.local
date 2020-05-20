@@ -7,6 +7,8 @@ use App\Folder;
 use Illuminate\Http\Request;
 // CreateFolderクラスのインポート
 use App\Http\Requests\CreateFolder;
+// Authクラスをインポートする
+use Illuminate\Support\Facades\Auth;
 
 class FolderController extends Controller
 {
@@ -25,13 +27,16 @@ class FolderController extends Controller
     {
         // フォルダモデルのインスタンスを作成
         $folder = new Folder();
+
         /** 
          * タイトルに入力値を代入する
          * リクエストクラスのインスタンスにリクエストヘッダや送信元IP、フォームの入力値などが入っている
          */
         $folder->title = $request->title;
-        // インスタンスの状態をデータベースへ書き込む
-        $folder->save();
+
+        // ユーザーに紐づけて保存
+        Auth::user()->folders()->save($folder);
+        
         /** 
          * フォルダを作成するルートに画面の出力は必要ないので、フォルダに対応するタスク一覧画面に
          * redirectメソッドを呼び出し偏移させる
