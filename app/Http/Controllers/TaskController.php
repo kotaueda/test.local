@@ -7,13 +7,14 @@ use App\Task; //Taskモデルを読み込む
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateTask; // CreateTaskコントローラーをインポートする
 use App\Http\Requests\EditTask; // EditTaskコントローラーをインポートする
+use Illuminate\Support\Facades\Auth; // Authクラスをインポートする
 
 class TaskController extends Controller
 {
     public function index(int $id)
     {
-        //すべてのフォルダを取得する
-        $folders = Folder::all();
+        // ユーザーのフォルダを取得する
+        $folders = Auth::user()->folders()->get();
 
         //選択したフォルダを取得する
         $current_folder = Folder::find($id);
