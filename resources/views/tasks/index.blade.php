@@ -63,7 +63,7 @@
                   <td>{{ $task->formatted_due_date }}</td>
                   <td>
                     <!-- タスク一覧画面への編集リンク -->
-                    <a href="{{ route('tasks.edit', ['id' => $task->folder_id, 'task_id' => $task->id]) }}">
+                    <a href="{{ route('tasks.edit', ['folder' => $task->folder_id, 'task' => $task->id]) }}">
                         編集
                     </a>
                   </td>

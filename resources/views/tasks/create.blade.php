@@ -24,7 +24,7 @@
               </div>
             @endif
             <!-- formアクションでurlを呼び出し、フォームを使ってデータを送る -->
-            <form action="{{ route('tasks.create', ['id' => $folder_id]) }}" method="POST">
+            <form action="{{ route('tasks.create', ['folder' => $folder_id]) }}" method="POST">
               <!-- 他サイトからの悪意あるPOSTリクエストを受け付けないよう、自分のサイトからのPOSTリクエストだけ受け付けるため、CSRFトークンを用いる -->
               @csrf
               <div class="form-group">
