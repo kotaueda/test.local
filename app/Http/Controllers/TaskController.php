@@ -19,11 +19,6 @@ class TaskController extends Controller
      */ 
     public function index(Folder $folder)
     {
-
-        if (Auth::user()->id !== $folder->user_id) {
-            abort(403);
-        }
-        
         // ユーザーのフォルダを取得する
         $folders = Auth::user()->folders()->get();
 
@@ -73,7 +68,7 @@ class TaskController extends Controller
          * redirectメソッドを呼び出し偏移させる
          */
         return redirect()->route('tasks.index', [
-            'id' => $folder->id,
+            'folder' => $folder->id,
         ]);
     }
 
@@ -91,6 +86,13 @@ class TaskController extends Controller
         ]);
     }
 
+    /**
+     * タスク編集
+     * @param Folder $folder
+     * @param Task $task
+     * @param EditTask $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function edit(Folder $folder, Task $task, EditTask $request)
     {
         // タイトルと期限日、状態の入力値を代入する
@@ -105,7 +107,7 @@ class TaskController extends Controller
          * redirectメソッドを呼び出し偏移させる
          */
         return redirect()->route('tasks.index', [
-            'id' => $task->folder_id,
+            'folder' => $task->folder_id,
         ]);
     }
 }
