@@ -11,65 +11,77 @@ use Illuminate\Support\Facades\Auth; // Authクラスをインポートする
 
 class TaskController extends Controller
 {
-    public function index(int $id)
+    /**
+     * idからfolderを受け取るよう記述しなおすことで、URL中のIDに該当するフォルダデータが
+     * コントローラーメソッド渡される 
+     * @param Folder $folder
+     * @return \Illuminate\View\View
+     */ 
+    public function index(Folder $folder)
     {
         // ユーザーのフォルダを取得する
         $folders = Auth::user()->folders()->get();
 
-        //選択したフォルダを取得する
-        $current_folder = Folder::find($id);
-
-        //選択したフォルダに紐づかれたタスクを取得する
-        //より直感的な表現に書き換える
-        $tasks = $current_folder->tasks()->get(); 
+        // 選ばれたフォルダに紐づくタスクを取得する
+        $tasks = $folder->tasks()->get();
 
         return view('tasks/index', [
             'folders' => $folders,
             //選択したフォルダのIDを受け取り、view関数でテンプレートに渡す
-            'current_folder_id' => $current_folder->id,
+            'current_folder_id' => $folder->id,
             //選択したフォルダに紐づかれたタスクをview関数でテンプレートに渡す
             'tasks' => $tasks,
         ]);
     }
 
-    // 入力フォームを表示するためのルートを実装する 
-    public function showCreateForm(int $id) 
+    /** 
+     * 入力フォームを表示するためのルートを実装する 
+     * @param Folder $folder
+     * @return \Illuminate\View\View
+     */ 
+    public function showCreateForm(Folder $folder) 
     { 
         // URL（/folders/{id}/tasks/create）を作るためのフォルダIDをの引数で受け取る 
         return view('tasks/create', [
-             'folder_id' => $id
+             'folder_id' => $folder->id,
         ]); 
     }
 
-    // タスクを保存するcreateメソッドを追加する
-    public function create(int $id, CreateTask $request)
+    /**
+     * タスクを保存するcreateメソッドを追加する
+     * @param Folder $folder
+     * @param CreateTask $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function create(Folder $folder, CreateTask $request)
     {
-        // フォルダidを取得し、currrent_folderに代入する
-        $current_folder = Folder::find($id);
-
         // タスクモデルのインスタンスを作成
         $task = new Task();
         // タイトルと期限日の入力値を代入する
         $task->title = $request->title;
         $task->due_date = $request->due_date;
 
-        // current_folderに紐づくタスクを保存する
-        $current_folder->tasks()->save($task);
+        $folder->tasks()->save($task);
 
         /** 
          * タスクを作成するルートに画面の出力は必要ないので、フォルダに紐づくタスクをタスク一覧画面に
          * redirectメソッドを呼び出し偏移させる
          */
         return redirect()->route('tasks.index', [
-            'id' => $current_folder->id,
+            'folder' => $folder->id,
         ]);
     }
 
-    // タスクを編集するshowEditFormメソッドを追加する
-    public function showEditForm(int $id, int $task_id)
+    /**
+     * タスクを編集するshowEditFormメソッドを追加する
+     * @param Folder $folder
+     * @param Task $task
+     * @return \Illuminate\View\View  
+     */
+    public function showEditForm(Folder $folder, Task $task)
     {
-        // 編集対象となるタスクデータを取得する
-        $task = Task::find($task_id);
+        // チェックの処理をメソッドに切り出す
+        $this->checkRelation($folder, $task);
 
         // タスク編集テンプレートにタスクデータを渡す
         return view('tasks/edit', [
@@ -77,10 +89,17 @@ class TaskController extends Controller
         ]);
     }
 
-    public function edit(int $id, int $task_id, EditTask $request)
+    /**
+     * タスク編集
+     * @param Folder $folder
+     * @param Task $task
+     * @param EditTask $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function edit(Folder $folder, Task $task, EditTask $request)
     {
-        // リクエストを受けたIDからタスクデータを取得する
-        $task = Task::find($task_id);
+        // チェックの処理をメソッドに切り出す
+        $this->checkRelation($folder, $task);
 
         // タイトルと期限日、状態の入力値を代入する
         $task->title = $request->title;
@@ -89,13 +108,20 @@ class TaskController extends Controller
         // タスクを保存する
         $task->save();
 
-    
         /** 
          * タスクを作成するルートに画面の出力は必要ないので、フォルダに紐づくタスクをタスク一覧画面に
          * redirectメソッドを呼び出し偏移させる
          */
         return redirect()->route('tasks.index', [
-            'id' => $task->folder_id,
+            'folder' => $task->folder_id,
         ]);
+    }
+
+    // タスクとフォルダの紐づきを確認し、紐づいていなければ404エラーを返すメソッド
+    private function checkRelation(Folder $folder, Task $task)
+    {
+        if ($folder->id !== $task->folder_id) {
+            abort(404);
+        }
     }
 }

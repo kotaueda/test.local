@@ -20,22 +20,27 @@ Route::group(['middleware' => 'auth'], function() {
   // トップページを表示する
   Route::get('/', 'HomeController@index')->name('home');
 
-  Route::get('/folders/{id}/tasks', 'TaskController@index')->name('tasks.index');
-
   // フォルダ作成ページを表示する
   Route::get('/folders/create', 'FolderController@showCreateForm')->name('folders.create'); // 名前付きルートを使うことでURLを一括変更できる
   // フォルダ作成処理を実行する
   Route::post('/folders/create', 'FolderController@create'); // 同じURLでHTTPメソッド違いのルートがいくつかある場合、どれか一つに名前をつければいい
 
-  // タスク作成ページを表示する 
-  Route::get('/folders/{id}/tasks/create', 'TaskController@showCreateForm')->name('tasks.create'); 
-  // タスク作成処理を実行する 
-  Route::post('/folders/{id}/tasks/create', 'TaskController@create');
+  Route::group(['middleware' => 'can:view,folder'], function() {
 
-  // タスク編集ページを表示する 
-  Route::get('/folders/{id}/tasks/{task_id}/edit', 'TaskController@showEditForm')->name('tasks.edit');
-  // タスク編集処理を実行する 
-  Route::post('/folders/{id}/tasks/{task_id}/edit', 'TaskController@edit');
+    // タスク一覧のエラーの挙動をまとめて管理するルート定義を編集する
+    Route::get('/folders/{folder}/tasks', 'TaskController@index')->name('tasks.index');
+
+    // タスク作成ページを表示する 
+    Route::get('/folders/{folder}/tasks/create', 'TaskController@showCreateForm')->name('tasks.create');
+    // タスク作成処理を実行する 
+    Route::post('/folders/{folder}/tasks/create', 'TaskController@create');
+
+    // タスク編集ページを表示する 
+    Route::get('/folders/{folder}/tasks/{task}/edit', 'TaskController@showEditForm')->name('tasks.edit');
+    // タスク編集処理を実行する 
+    Route::post('/folders/{folder}/tasks/{task}/edit', 'TaskController@edit');
+    
+  }); 
 
   // 登録完了ページを表示する
   Route::get('/completion', 'CompletionController@index')->name('completion');

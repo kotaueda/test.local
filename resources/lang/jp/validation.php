@@ -152,6 +152,11 @@ return [
     |
     */
 
-    'attributes' => [],
+    // アプリケーション全体にattributesのキーの値を追加する
+    'attributes' => [
+        'email' => 'メールアドレス',
+        'password' => 'パスワード',
+        'token' => 'トークン',
+    ],
 
 ];

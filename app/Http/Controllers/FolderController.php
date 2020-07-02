@@ -40,9 +40,10 @@ class FolderController extends Controller
         /** 
          * フォルダを作成するルートに画面の出力は必要ないので、フォルダに対応するタスク一覧画面に
          * redirectメソッドを呼び出し偏移させる
+         * idからfolderに変更し、routeのパラメーターに対応させる
          */
         return redirect()->route('tasks.index', [
-            'id' => $folder->id,
+            'folder' => $folder->id,
         ]);
     }
 }

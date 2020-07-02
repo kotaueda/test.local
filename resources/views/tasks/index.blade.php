@@ -14,8 +14,9 @@
           </div>
           <div class="list-group">
             @foreach($folders as $folder)
+              <!-- idをfolderに変更し、パラメーターに対応させる -->
               <a 
-                href="{{ route('tasks.index', ['id' => $folder->id]) }}" 
+                href="{{ route('tasks.index', ['folder' => $folder->id]) }}" 
                 class="list-group-item {{ $current_folder_id === $folder->id ? 'active' : '' }}"
               >
                 {{ $folder->title }}
@@ -31,7 +32,8 @@
           <div class="panel-body">
             <div class="text-right">
               <!-- フォルダに紐づいたタスクのデータをコントローラーから受け取り、表示する -->
-              <a href="{{ route('tasks.create', ['id' => $current_folder_id]) }}" class="btn btn-default btn-block">
+              <!-- idをfolderに変更し、パラメーターに対応させる -->
+              <a href="{{ route('tasks.create', ['folder' => $current_folder_id]) }}" class="btn btn-default btn-block">
                 タスクを追加する
               </a>
             </div>
@@ -61,7 +63,7 @@
                   <td>{{ $task->formatted_due_date }}</td>
                   <td>
                     <!-- タスク一覧画面への編集リンク -->
-                    <a href="{{ route('tasks.edit', ['id' => $task->folder_id, 'task_id' => $task->id]) }}">
+                    <a href="{{ route('tasks.edit', ['folder' => $task->folder_id, 'task' => $task->id]) }}">
                         編集
                     </a>
                   </td>
