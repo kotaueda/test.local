@@ -80,6 +80,9 @@ class TaskController extends Controller
      */
     public function showEditForm(Folder $folder, Task $task)
     {
+        // チェックの処理をメソッドに切り出す
+        $this->checkRelation($folder, $task);
+
         // タスク編集テンプレートにタスクデータを渡す
         return view('tasks/edit', [
             'task' => $task,
@@ -95,6 +98,9 @@ class TaskController extends Controller
      */
     public function edit(Folder $folder, Task $task, EditTask $request)
     {
+        // チェックの処理をメソッドに切り出す
+        $this->checkRelation($folder, $task);
+
         // タイトルと期限日、状態の入力値を代入する
         $task->title = $request->title;
         $task->status = $request->status;
@@ -109,5 +115,13 @@ class TaskController extends Controller
         return redirect()->route('tasks.index', [
             'folder' => $task->folder_id,
         ]);
+    }
+
+    // タスクとフォルダの紐づきを確認し、紐づいていなければ404エラーを返すメソッド
+    private function checkRelation(Folder $folder, Task $task)
+    {
+        if ($folder->id !== $task->folder_id) {
+            abort(404);
+        }
     }
 }
